@@ -245,12 +245,48 @@ if (birthdayForm) {
 }
 
 /* ===== Donate Form Submission ===== */
-const donateForm = document.getElementById('donateForm');
+const donateForm = document.getElementById('donation-form');
+const upiTransactionId = document.getElementById('upiTransactionId');
+const donationSubmit = document.getElementById('donation-submit');
+if (upiTransactionId && donationSubmit) {
+  const updateDonationSubmit = () => {
+    donationSubmit.disabled = !upiTransactionId.checkValidity();
+  };
+  upiTransactionId.addEventListener('input', updateDonationSubmit);
+  updateDonationSubmit();
+}
 if (donateForm) {
-  donateForm.addEventListener('submit', (e) => {
+  donateForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    alert('Thank you for your generous donation! Your support makes a real difference.');
+    const donatorName = document.getElementById('donatorName').value.trim();
+    const status = document.getElementById('donation-status');
+    const formData = new FormData(donateForm);
+    const donation = Object.fromEntries(formData.entries());
+    if (status) {
+      status.className = 'donation-status';
+      status.textContent = 'Saving donation details...';
+    }
+    try {
+      const response = await fetch('/api/donations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(donation)
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Unable to save donation.');
+      if (status) {
+        status.className = 'donation-status success';
+        status.textContent = 'Thank you, ' + donatorName + '! Your donation was saved successfully.';
+      }
+    } catch (error) {
+      if (status) {
+        status.className = 'donation-status error';
+        status.textContent = 'Could not save donation. Please make sure the local server is running.';
+      }
+      return;
+    }
     donateForm.reset();
+    if (donationSubmit) donationSubmit.disabled = true;
   });
 }
 

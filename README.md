@@ -6,7 +6,7 @@ A responsive website for Sai Veera Bhadra Trust, showcasing its mission, communi
 
 - Responsive design for desktop, tablet, and mobile devices
 - Shared header and footer using `header.html` and `footer.html`
-- Runtime layout loading through `layout.js`
+- Runtime layout loading through `load-components.js`
 - Image carousel with lightbox support
 - Video gallery with poster previews and modal playback
 - Mobile navigation menu
@@ -23,7 +23,7 @@ A responsive website for Sai Veera Bhadra Trust, showcasing its mission, communi
 │   └── style.css
 ├── images/
 ├── js/
-│   ├── layout.js
+│   ├── load-components.js
 │   └── main.js
 ├── pages/
 │   ├── header.html
@@ -68,7 +68,7 @@ pages/footer.html
 All pages load them through:
 
 ```text
-js/layout.js
+js/load-components.js
 ```
 
 After changing the shared layout or page placeholders, run:

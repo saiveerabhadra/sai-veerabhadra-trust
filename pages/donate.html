@@ -15,10 +15,9 @@
 <body>
 
 
-  <!-- Header -->
-  <!-- Header -->
-  <!-- Header -->
-  <div id="site-header"></div>
+  <!-- @@HEADER_START@@ -->
+<div data-include="header"></div>
+<!-- @@HEADER_END@@ -->
 
   <!-- Page Banner -->
   <section class="page-banner">
@@ -34,7 +33,7 @@
   </section>
 
   <!-- Intro Section -->
-  <section class="section">
+  <section class="section donate-intro-section">
     <div class="container">
       <p class="donate-intro">Your contribution can help SAI VEERA BHADRA TRUST support more people in need.</p>
     </div>
@@ -121,38 +120,51 @@
     <div class="container">
       <div class="form-wrapper">
         <h2>Donate Now</h2>
-        <p class="subtitle">Fill in the details and our team will reach out to you to complete your donation.</p>
-        <form action="#" method="post">
+        <p class="subtitle">Complete your UPI payment, then submit the transaction details for confirmation.</p>
+        <form id="donation-form" action="#" method="post">
           <div class="form-group">
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+            <label for="donatorName">Donator Name</label>
+            <input type="text" id="donatorName" name="donatorName" placeholder="Enter your name" required>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="Enter your email" required>
+          <div class="form-group">
+            <label for="program">Program</label>
+            <select id="program" name="program" required>
+              <option value="" selected disabled>Select a program</option>
+              <option>Education Support</option>
+              <option>Medical Assistance</option>
+              <option>Food Distribution</option>
+              <option>Clothes and Groceries</option>
+              <option>Disability Support</option>
+              <option>Skill Development</option>
+              <option>General Donation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="amount">Amount <span class="required-mark">*</span></label>
+            <input type="number" id="amount" name="amount" placeholder="Enter donation amount" min="1" step="1" required>
+          </div>
+          <div class="upi-payment-box">
+            <div class="upi-heading"><i class="fas fa-qrcode"></i><span>UPI QR Scanner</span></div>
+            <div class="upi-qr-placeholder">
+              <img class="upi-qr-image" src="../images/UPI QR Scanner.jpeg" alt="Sai Veera Bhadra Trust official UPI QR code">
             </div>
-            <div class="form-group">
-              <label for="phone">Phone</label>
-              <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
-            </div>
+            <p class="upi-note">Scan the official QR code with your UPI app and complete the donation.</p>
           </div>
-          <div class="form-group">
-            <label for="amount">Amount (Optional)</label>
-            <input type="number" id="amount" name="amount" placeholder="Enter donation amount" min="1">
+          <div class="form-group transaction-group" id="transaction-group">
+            <label for="upiTransactionId">UPI Transaction ID</label>
+            <input type="text" id="upiTransactionId" name="upiTransactionId" placeholder="Enter the transaction ID from your UPI app" minlength="6" required>
+            <small>Enter the transaction ID shown after your successful payment.</small>
           </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Write a message or let us know how you would like your contribution to be used"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary btn-block">Donate Now</button>
+          <button type="submit" class="btn btn-primary btn-block" id="donation-submit" disabled>Submit Donation</button>
+          <p class="donation-status" id="donation-status" role="status" aria-live="polite"></p>
         </form>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <div id="site-footer"></div>
+  <!-- @@FOOTER_START@@ -->
+<div data-include="footer"></div>
+<!-- @@FOOTER_END@@ -->
 
   <!-- Scroll to Top Button -->
   <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
@@ -163,6 +175,6 @@
   <a href="https://wa.me/917702550818" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
     <i class="fab fa-whatsapp"></i>
   </a>
-  <script src="../js/layout.js"></script>
+  <script src="../js/load-components.js"></script>
 </body>
 </html>
