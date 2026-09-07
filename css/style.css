@@ -567,6 +567,16 @@ h1,h2,h3,h4,h5,h6{line-height:1.3;font-weight:700}
 .carousel-slide .carousel-overlay{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent 30%,rgba(240,246,252,.98));padding:30px;color:#1B2A4A}
 .carousel-slide .carousel-overlay h3{font-size:1.3rem;margin-bottom:4px}
 .carousel-slide .carousel-overlay span{font-size:.85rem;color:#5a7186}
+.carousel-slide .carousel-overlay,
+.carousel-slide .carousel-overlay h3,
+.carousel-slide .carousel-overlay span,
+.video-modal-title,
+.lightbox-caption{display:none !important}
+.video-title{display:none !important}
+.video-card.custom-last-video{aspect-ratio:auto;display:flex;flex-direction:column;gap:12px;overflow:visible}
+.video-card.custom-last-video .video-thumb{position:relative;inset:auto;width:100%;height:190px;object-fit:cover;display:block}
+.video-card.custom-last-video .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.video-card.custom-last-video .video-title.custom-video-label{display:block !important;position:static;padding:0;background:none;color:#1B2A4A;font-size:1rem;font-weight:600;line-height:1.5;text-align:left}
 .carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.9);color:#1B2A4A;border:none;display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;transition:all .3s;box-shadow:0 4px 15px rgba(0,0,0,.2);z-index:10}
 .carousel-arrow:hover{background:#E86F2C;color:#fff}
 .carousel-arrow.prev{left:15px}
