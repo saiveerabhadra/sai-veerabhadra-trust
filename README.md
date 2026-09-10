@@ -38,7 +38,6 @@ A responsive website for Sai Veera Bhadra Trust, showcasing its mission, communi
 │   ├── skill.html
 │   ├── assistance.html
 │   ├── donate.html
-│   ├── birthday.html
 │   └── contact.html
 └── videos/
 ```
