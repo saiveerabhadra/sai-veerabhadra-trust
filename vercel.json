@@ -1,5 +1,7 @@
 {
+  "buildCommand": "echo 'Static site - no build needed'",
+  "outputDirectory": "pages",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/pages/$1" }
+    { "source": "/(.*)", "destination": "/$1" }
   ]
 }
