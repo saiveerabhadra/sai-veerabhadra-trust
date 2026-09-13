@@ -1,0 +1,9 @@
+{
+  "name": "sai-veerabhadra-trust",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Static site - no build needed'",
+    "dev": "node local-server.js"
+  }
+}
