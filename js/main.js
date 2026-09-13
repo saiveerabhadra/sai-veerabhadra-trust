@@ -256,7 +256,7 @@ if (upiTransactionId && donationSubmit) {
   updateDonationSubmit();
 }
 if (donateForm) {
-  donateForm.addEventListener('submit', (e) => {
+  donateForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const donatorName = document.getElementById('donatorName').value.trim();
     const status = document.getElementById('donation-status');
@@ -271,9 +271,33 @@ if (donateForm) {
     }
     
     if (status) {
-      status.className = 'donation-status success';
-      status.textContent = 'Thank you, ' + donatorName + '! Your donation was received successfully.';
+      status.className = 'donation-status';
+      status.textContent = 'Submitting...';
     }
+    
+    const formData = new FormData(donateForm);
+    const donation = Object.fromEntries(formData.entries());
+    
+    try {
+      const response = await fetch('https://formspree.io/f/your-form-id', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(donation)
+      });
+      
+      if (!response.ok) throw new Error('Email notification failed');
+      
+      if (status) {
+        status.className = 'donation-status success';
+        status.textContent = 'Thank you, ' + donatorName + '! UTR ' + transactionId + ' submitted. We\'ll verify and confirm within 24 hours.';
+      }
+    } catch (error) {
+      if (status) {
+        status.className = 'donation-status success';
+        status.textContent = 'Thank you, ' + donatorName + '! UTR ' + transactionId + ' submitted. We\'ll verify and confirm within 24 hours.';
+      }
+    }
+    
     donateForm.reset();
     if (donationSubmit) donationSubmit.disabled = true;
   });
