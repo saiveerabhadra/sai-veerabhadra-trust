@@ -117,7 +117,7 @@ h1,h2,h3,h4,h5,h6{line-height:1.3;font-weight:700}
 /* ===== About Preview ===== */
 .about-preview{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
 .about-image{position:relative}
-.about-image .img-placeholder{width:100%;height:450px;background-size:contain;background-position:center;background-repeat:no-repeat;border-radius:20px;position:relative;background:transparent}
+.about-image .img-placeholder{width:100%;height:450px;background-size:cover;background-position:center;background-repeat:no-repeat;border-radius:20px;position:relative;background:none}
 .about-text .founder-header{margin-bottom:10px}
 .about-text .founder-title{font-size:.65rem;font-weight:700;color:#E86F2C;text-transform:uppercase;letter-spacing:1.5px;display:block;margin-bottom:3px}
 .about-text .founder-name{font-size:1rem;font-weight:600;color:#1B2A4A;display:block;margin-bottom:3px}
@@ -339,10 +339,8 @@ h1,h2,h3,h4,h5,h6{line-height:1.3;font-weight:700}
   .step-card::after{display:none}
   .gallery-grid{grid-template-columns:repeat(3,1fr)}
   .birthday-steps{grid-template-columns:repeat(2,1fr)}
-  .activities-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:768px){
-  .activities-grid{grid-template-columns:1fr}
   .top-bar .container{flex-direction:column;text-align:center}
   .nav-menu{justify-content:flex-start}
   .nav-menu .hamburger{position:absolute;right:0;top:8px}
@@ -617,8 +615,8 @@ h1,h2,h3,h4,h5,h6{line-height:1.3;font-weight:700}
 .video-card:hover .play-btn{background:#E86F2C;color:#fff;transform:scale(1.08)}
 .video-title{position:absolute;left:0;right:0;bottom:0;padding:34px 16px 14px;background:linear-gradient(transparent,rgba(240,246,252,.98));color:#1B2A4A;font-size:.9rem;font-weight:500;z-index:2}
 .video-hint{text-align:center;margin-top:25px;font-size:.85rem;color:#6b8198}
-.video-modal{position:fixed;inset:0;background:rgba(255,255,255,.96);z-index:9999;display:none;align-items:center;justify-content:center;padding:40px;transition:opacity .3s ease,visibility .3s ease}
-.video-modal.active{display:flex;opacity:1;visibility:visible}
+.video-modal{position:fixed;inset:0;background:rgba(255,255,255,.96);z-index:9999;display:none;align-items:center;justify-content:center;padding:40px}
+.video-modal.active{display:flex}
 .video-modal-content{max-width:900px;width:100%;position:relative;border-radius:14px;overflow:hidden;box-shadow:0 15px 50px rgba(0,0,0,.2);background:#fff}
 .video-modal-content video{width:100%;display:block;aspect-ratio:16/9;background:#000}
 .video-modal-close{position:absolute;top:12px;right:12px;z-index:3;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.95);color:#1B2A4A;border:none;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,.2);transition:all .3s}
