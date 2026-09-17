@@ -225,17 +225,19 @@ const contactForm = document.getElementById('contactForm');
 if (contactForm) {
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const status = document.getElementById('donation-status') || { textContent: '', className: '' };
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     if (submitBtn) submitBtn.disabled = true;
     try {
       const formData = new FormData(contactForm);
-      const response = await fetch('https://formspree.io/f/admin@saiveerabhadratrust.com', {
+      const data = Object.fromEntries(formData.entries());
+      data.access_key = 'YOUR_WEB3FORMS_ACCESS_KEY';
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.fromEntries(formData.entries()))
+        body: JSON.stringify(data)
       });
-      if (!response.ok) throw new Error('Submission failed');
+      const result = await response.json();
+      if (!response.ok || result.success !== true) throw new Error(result.message || 'Submission failed');
       alert('Thank you for your message! We will get back to you soon.');
       contactForm.reset();
     } catch (error) {
@@ -255,12 +257,15 @@ if (assistForm) {
     if (submitBtn) submitBtn.disabled = true;
     try {
       const formData = new FormData(assistForm);
-      const response = await fetch('https://formspree.io/f/admin@saiveerabhadratrust.com', {
+      const data = Object.fromEntries(formData.entries());
+      data.access_key = 'YOUR_WEB3FORMS_ACCESS_KEY';
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.fromEntries(formData.entries()))
+        body: JSON.stringify(data)
       });
-      if (!response.ok) throw new Error('Submission failed');
+      const result = await response.json();
+      if (!response.ok || result.success !== true) throw new Error(result.message || 'Submission failed');
       alert('Thank you for your request! The Trust will review your application and get back to you.');
       assistForm.reset();
     } catch (error) {
