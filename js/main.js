@@ -190,8 +190,11 @@ function openVideoModal(src, title) {
     if (src) videoPlayer.src = src;
     videoPlayer.load();
     videoPlayer.style.display = 'block';
+    videoPlayer.style.background = 'transparent';
   }
   videoModal.classList.add('active');
+  videoModal.style.opacity = '1';
+  videoModal.style.visibility = 'visible';
   document.body.style.overflow = 'hidden';
   if (videoPlayer) videoPlayer.play().catch(() => {});
 }
@@ -206,13 +209,18 @@ document.querySelectorAll('.video-card, .carousel-slide.video-slide').forEach(ca
 
 function closeVideoModal() {
   if (!videoModal) return;
-  videoModal.classList.remove('active');
   if (videoPlayer) {
     videoPlayer.pause();
     videoPlayer.removeAttribute('src');
     videoPlayer.load();
     videoPlayer.style.display = 'none';
+    videoPlayer.style.background = 'transparent';
   }
+  videoModal.style.opacity = '0';
+  videoModal.style.visibility = 'hidden';
+  setTimeout(() => {
+    videoModal.classList.remove('active');
+  }, 300);
   document.body.style.overflow = '';
 }
 if (videoModalClose) videoModalClose.addEventListener('click', closeVideoModal);
