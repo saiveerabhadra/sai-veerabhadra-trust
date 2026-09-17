@@ -295,55 +295,88 @@
                 <p>Watch highlights and recordings of our events and programs.</p>
             </div>
 
-            <div class="video-grid">
+            <!-- Video Carousel Slider -->
+            <div class="carousel" id="video-carousel">
 
-                <div class="video-card fade-up" data-video="../videos/school-fee-assistance.mp4" data-title="">
-                    <video class="video-thumb" muted playsinline preload="metadata" src="../videos/school-fee-assistance.mp4"></video>
-                    <i class="fas fa-play play-btn"></i>
-                    <span class="video-title"></span>
+                <div class="carousel-viewport">
+                    <div class="carousel-track">
+
+                        <div class="carousel-slide video-slide" data-video="../videos/school-fee-assistance.mp4" data-title="School Fee Assistance Drive" data-date="">
+                            <video class="carousel-img" muted playsinline preload="metadata" src="../videos/school-fee-assistance.mp4"></video>
+                            <div class="carousel-overlay">
+                                <h3>School Fee Assistance Drive</h3>
+                                <span>Education Support</span>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide video-slide" data-video="../videos/free-medical-camp.mp4" data-title="Free Medical Camp" data-date="">
+                            <video class="carousel-img" muted playsinline preload="metadata" src="../videos/free-medical-camp.mp4"></video>
+                            <div class="carousel-overlay">
+                                <h3>Free Medical Camp</h3>
+                                <span>Medical & Health</span>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide video-slide" data-video="../videos/food-distribution.mp4" data-title="Food Distribution Program" data-date="">
+                            <video class="carousel-img" muted playsinline preload="metadata" src="../videos/food-distribution.mp4"></video>
+                            <div class="carousel-overlay">
+                                <h3>Food Distribution Program</h3>
+                                <span>Food & Basic Needs</span>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide video-slide" data-video="../videos/scholarship-awards.mp4" data-title="Scholarship Awards Ceremony" data-date="">
+                            <video class="carousel-img" muted playsinline preload="metadata" src="../videos/scholarship-awards.mp4"></video>
+                            <div class="carousel-overlay">
+                                <h3>Scholarship Awards Ceremony</h3>
+                                <span>Education Support</span>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide video-slide" data-video="../videos/computer-training.mp4" data-title="Computer Training Session" data-date="">
+                            <video class="carousel-img" muted playsinline preload="metadata" src="../videos/computer-training.mp4"></video>
+                            <div class="carousel-overlay">
+                                <h3>Computer Training Session</h3>
+                                <span>Skill Development</span>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide video-slide" data-video="../videos/cleanliness-drive.mp4" data-title="Village Cleanliness Drive" data-date="">
+                            <video class="carousel-img" muted playsinline preload="metadata" src="../videos/cleanliness-drive.mp4"></video>
+                            <div class="carousel-overlay">
+                                <h3>Village Cleanliness Drive</h3>
+                                <span>Community Service</span>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide video-slide" data-video="../videos/community-outreach.mp4" data-title="Community Outreach" data-date="">
+                            <video class="carousel-img" muted playsinline preload="metadata" src="../videos/community-outreach.mp4"></video>
+                            <div class="carousel-overlay">
+                                <h3>Community Outreach</h3>
+                                <span>Community Service</span>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide video-slide" data-video="https://raw.githubusercontent.com/saiveerabhadra/sai-veerabhadra-trust/master/videos/sai%20veerabadhra%20trust.mp4" data-title="1st Year Anniversary" data-date="">
+                            <video class="carousel-img" muted playsinline preload="metadata" src="https://raw.githubusercontent.com/saiveerabhadra/sai-veerabhadra-trust/master/videos/sai%20veerabadhra%20trust.mp4"></video>
+                            <div class="carousel-overlay">
+                                <h3>1st Year Anniversary</h3>
+                                <span>Trust Activities</span>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
-                <div class="video-card fade-up" data-video="../videos/free-medical-camp.mp4" data-title="">
-                    <video class="video-thumb" muted playsinline preload="metadata" src="../videos/free-medical-camp.mp4"></video>
-                    <i class="fas fa-play play-btn"></i>
-                    <span class="video-title"></span>
-                </div>
+                <button class="carousel-arrow prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-arrow next" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
 
-                <div class="video-card fade-up" data-video="../videos/food-distribution.mp4" data-title="">
-                    <video class="video-thumb" muted playsinline preload="metadata" src="../videos/food-distribution.mp4"></video>
-                    <i class="fas fa-play play-btn"></i>
-                    <span class="video-title"></span>
+                <div class="carousel-dots"></div>
+                <div class="carousel-progress" aria-hidden="true">
+                    <span class="carousel-progress-bar"></span>
                 </div>
-
-                <div class="video-card fade-up" data-video="../videos/scholarship-awards.mp4" data-title="">
-                    <video class="video-thumb" muted playsinline preload="metadata" src="../videos/scholarship-awards.mp4"></video>
-                    <i class="fas fa-play play-btn"></i>
-                    <span class="video-title"></span>
-                </div>
-
-                <div class="video-card fade-up" data-video="../videos/computer-training.mp4" data-title="">
-                    <video class="video-thumb" muted playsinline preload="metadata" src="../videos/computer-training.mp4"></video>
-                    <i class="fas fa-play play-btn"></i>
-                    <span class="video-title"></span>
-                </div>
-
-                <div class="video-card fade-up" data-video="../videos/cleanliness-drive.mp4" data-title="">
-                    <video class="video-thumb" muted playsinline preload="metadata" src="../videos/cleanliness-drive.mp4"></video>
-                    <i class="fas fa-play play-btn"></i>
-                    <span class="video-title"></span>
-                </div>
-
-                <div class="video-card fade-up" data-video="../videos/community-outreach.mp4" data-title="">
-                    <video class="video-thumb" muted playsinline preload="metadata" src="../videos/community-outreach.mp4"></video>
-                    <i class="fas fa-play play-btn"></i>
-                    <span class="video-title"></span>
-                </div>
-
-                <div class="video-card custom-last-video fade-up" data-video="https://raw.githubusercontent.com/saiveerabhadra/sai-veerabhadra-trust/master/videos/sai%20veerabadhra%20trust.mp4" data-title="1st Year Anniversary">
-                    <video class="video-thumb" muted playsinline preload="metadata" src="https://raw.githubusercontent.com/saiveerabhadra/sai-veerabhadra-trust/master/videos/sai%20veerabadhra%20trust.mp4"></video>
-                    <i class="fas fa-play play-btn"></i>
-                    <div class="video-title custom-video-label">1st Year Anniversary</div>
-                </div>
+                <div class="carousel-caption">Click a video to play</div>
+                <div class="carousel-count"></div>
 
             </div>
 

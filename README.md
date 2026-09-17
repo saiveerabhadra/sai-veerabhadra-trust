@@ -88,7 +88,10 @@ node build.js
 ## Contact
 
 **Sai Veera Bhadra Trust**  
-Andhra Pradesh, India
+Kunchanapalli Village, Tadepalligudem Mandal,  
+West Godavari District, Andhra Pradesh &ndash; 534101, India  
 
 Email: `saiveerabhadra24@gmail.com`  
-Phone: `7702550818`
+Email: `admin@saiveerabhadratrust.com`  
+Phone: `7702550818`  
+Registration No.: `16/2026`

@@ -180,22 +180,27 @@ const videoModalClose = document.getElementById('video-modal-close');
 const videoPlayer = document.getElementById('video-player');
 const videoModalTitle = document.getElementById('video-modal-title');
 
-document.querySelectorAll('.video-card').forEach(card => {
+function openVideoModal(src, title) {
+  if (!videoModal) return;
+  if (videoModalTitle) videoModalTitle.textContent = title;
+  if (videoPlayer) {
+    videoPlayer.pause();
+    videoPlayer.removeAttribute('src');
+    videoPlayer.load();
+    if (src) videoPlayer.src = src;
+    videoPlayer.load();
+    videoPlayer.style.display = 'block';
+  }
+  videoModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  if (videoPlayer) videoPlayer.play().catch(() => {});
+}
+
+document.querySelectorAll('.video-card, .carousel-slide.video-slide').forEach(card => {
   card.addEventListener('click', () => {
-    if (!videoModal) return;
     const src = card.getAttribute('data-video');
     const title = card.getAttribute('data-title') || '';
-    if (videoModalTitle) videoModalTitle.textContent = title;
-    if (videoPlayer) {
-      videoPlayer.pause();
-      videoPlayer.removeAttribute('src');
-      videoPlayer.load();
-      if (src) videoPlayer.src = src;
-      videoPlayer.load();
-    }
-    videoModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    if (videoPlayer) videoPlayer.play().catch(() => {});
+    openVideoModal(src, title);
   });
 });
 
@@ -206,6 +211,7 @@ function closeVideoModal() {
     videoPlayer.pause();
     videoPlayer.removeAttribute('src');
     videoPlayer.load();
+    videoPlayer.style.display = 'none';
   }
   document.body.style.overflow = '';
 }
@@ -315,8 +321,7 @@ function setActiveNav() {
 }
 
 /* ===== Gallery Carousel ===== */
-const carousel = document.querySelector('.carousel');
-if (carousel) {
+document.querySelectorAll('.carousel').forEach(carousel => {
   const track = carousel.querySelector('.carousel-track');
   const slides = carousel.querySelectorAll('.carousel-slide');
   const prevBtn = carousel.querySelector('.carousel-arrow.prev');
@@ -408,4 +413,4 @@ if (carousel) {
 
   updateCount();
   startProgress();
-}
+});
