@@ -223,20 +223,51 @@ if (videoModal) videoModal.addEventListener('click', (e) => {
 /* ===== Contact Form Submission ===== */
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    alert('Thank you for your message! We will get back to you soon.');
-    contactForm.reset();
+    const status = document.getElementById('donation-status') || { textContent: '', className: '' };
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+    try {
+      const formData = new FormData(contactForm);
+      const response = await fetch('https://formspree.io/f/admin@saiveerabhadratrust.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(formData.entries()))
+      });
+      if (!response.ok) throw new Error('Submission failed');
+      alert('Thank you for your message! We will get back to you soon.');
+      contactForm.reset();
+    } catch (error) {
+      alert('Could not send message. Please try again or email directly.');
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
   });
 }
 
 /* ===== Assistance Form Submission ===== */
 const assistForm = document.getElementById('assistForm');
 if (assistForm) {
-  assistForm.addEventListener('submit', (e) => {
+  assistForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    alert('Thank you for your request! The Trust will review your application and get back to you.');
-    assistForm.reset();
+    const submitBtn = assistForm.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+    try {
+      const formData = new FormData(assistForm);
+      const response = await fetch('https://formspree.io/f/admin@saiveerabhadratrust.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(formData.entries()))
+      });
+      if (!response.ok) throw new Error('Submission failed');
+      alert('Thank you for your request! The Trust will review your application and get back to you.');
+      assistForm.reset();
+    } catch (error) {
+      alert('Could not submit request. Please try again or email directly.');
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
   });
 }
 
