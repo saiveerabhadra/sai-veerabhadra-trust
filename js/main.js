@@ -1,3 +1,6 @@
+/* ===== Current Year in Footer ===== */
+document.getElementById('current-year').textContent = new Date().getFullYear();
+
 /* ===== Mobile Navigation Toggle ===== */
 function initNav() {
   const hamburger = document.querySelector('.hamburger');
@@ -182,6 +185,7 @@ const videoModalTitle = document.getElementById('video-modal-title');
 
 function openVideoModal(src, title) {
   if (!videoModal) return;
+  videoModal.hidden = false;
   if (videoModalTitle) videoModalTitle.textContent = title;
   if (videoPlayer) {
     videoPlayer.pause();
@@ -190,10 +194,14 @@ function openVideoModal(src, title) {
     if (src) videoPlayer.src = src;
     videoPlayer.load();
     videoPlayer.style.display = 'block';
+    videoPlayer.style.background = 'transparent';
   }
   videoModal.classList.add('active');
+  videoModal.style.opacity = '1';
+  videoModal.style.visibility = 'visible';
   document.body.style.overflow = 'hidden';
   if (videoPlayer) videoPlayer.play().catch(() => {});
+
 }
 
 document.querySelectorAll('.video-card, .carousel-slide.video-slide').forEach(card => {
@@ -206,14 +214,29 @@ document.querySelectorAll('.video-card, .carousel-slide.video-slide').forEach(ca
 
 function closeVideoModal() {
   if (!videoModal) return;
+
+  // Hide the modal before clearing the video source so the reset frame is never visible.
   videoModal.classList.remove('active');
+  videoModal.hidden = true;
+  videoModal.style.opacity = '0';
+  videoModal.style.visibility = 'hidden';
+  
   if (videoPlayer) {
     videoPlayer.pause();
+    videoPlayer.currentTime = 0;
+    videoPlayer.onended = null;
+    videoPlayer.src = '';
     videoPlayer.removeAttribute('src');
     videoPlayer.load();
     videoPlayer.style.display = 'none';
   }
+  
   document.body.style.overflow = '';
+}
+
+if (videoPlayer) {
+  videoPlayer.addEventListener('ended', closeVideoModal);
+  videoPlayer.addEventListener('error', closeVideoModal);
 }
 if (videoModalClose) videoModalClose.addEventListener('click', closeVideoModal);
 if (videoModal) videoModal.addEventListener('click', (e) => {
