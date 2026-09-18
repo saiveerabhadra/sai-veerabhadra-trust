@@ -243,6 +243,33 @@ if (videoModal) videoModal.addEventListener('click', (e) => {
   if (e.target === videoModal) closeVideoModal();
 });
 
+/* ===== Donate Tabs ===== */
+const donateTabs = document.querySelectorAll('.donate-tab');
+const donatePanels = document.querySelectorAll('.donate-tab-panel');
+
+donateTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.getAttribute('data-tab');
+    
+    donateTabs.forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    donatePanels.forEach(p => {
+      p.classList.remove('active');
+      p.hidden = true;
+    });
+    
+    tab.classList.add('active');
+    tab.setAttribute('aria-selected', 'true');
+    const panel = document.getElementById(target);
+    if (panel) {
+      panel.classList.add('active');
+      panel.hidden = false;
+    }
+  });
+});
+
 /* ===== Contact Form Submission ===== */
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
@@ -252,7 +279,7 @@ if (contactForm) {
     if (submitBtn) submitBtn.disabled = true;
     try {
       const formData = new FormData(contactForm);
-      const response = await fetch('https://formspree.io/f/admin@saiveerabhadratrust.com', {
+      const response = await fetch('https://formspree.io/f/mzezzybe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Object.fromEntries(formData.entries()))
@@ -274,20 +301,35 @@ if (assistForm) {
   assistForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const submitBtn = assistForm.querySelector('button[type="submit"]');
+    const status = document.getElementById('assist-status');
     if (submitBtn) submitBtn.disabled = true;
+    if (status) {
+      status.className = 'donation-status';
+      status.textContent = 'Submitting...';
+    }
     try {
       const formData = new FormData(assistForm);
-      const response = await fetch('https://formspree.io/f/admin@saiveerabhadratrust.com', {
+      const response = await fetch('https://formspree.io/f/mzezzybe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Object.fromEntries(formData.entries()))
       });
-      if (!response.ok) throw new Error('Submission failed');
-      alert('Thank you for your request! The Trust will review your application and get back to you.');
-      assistForm.reset();
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Submission failed' }));
+        throw new Error(errorData.error || `Submission failed (${response.status})`);
+      }
+      if (status) {
+        status.className = 'donation-status success';
+        status.textContent = 'Thank you for your request! The Trust will review your application and get back to you.';
+      }
+assistForm.reset();
     } catch (error) {
-      alert('Could not submit request. Please try again or email directly.');
+      if (status) {
+        status.className = 'donation-status error';
+        status.textContent = error.message;
+      }
     } finally {
+      const submitBtn = assistForm.querySelector('button[type="submit"]');
       if (submitBtn) submitBtn.disabled = false;
     }
   });
@@ -338,7 +380,7 @@ if (donateForm) {
     const donation = Object.fromEntries(formData.entries());
     
     try {
-      const response = await fetch('https://formspree.io/f/your-form-id', {
+      const response = await fetch('https://formspree.io/f/mzezzybe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(donation)
@@ -466,4 +508,17 @@ document.querySelectorAll('.carousel').forEach(carousel => {
 
   updateCount();
   startProgress();
+});
+
+// The JavaScript to make it click
+document.querySelectorAll('.donate-tab').forEach(button => {
+  button.addEventListener('click', function() {
+    // Get the URL from the data-url attribute
+    const url = this.getAttribute('data-url');
+    
+    // If a URL exists, open it in a new tab
+    if (url) {
+      window.open(url, '_blank');
+    }
+  });
 });

@@ -19,7 +19,7 @@
 <div data-include="header"></div>
 <!-- @@HEADER_END@@ -->
 
-  <!-- Every Contribution Matters Section -->
+<!-- Every Contribution Matters Section -->
   <section class="section section-no-padding">
     <div class="container">
       <div class="section-header">
@@ -30,50 +30,124 @@
     </div>
   </section>
 
-  <!-- Donate Form Section -->
-  <section class="form-section section" id="donateForm">
+  <div class="container">
+    <div class="external-redirect-box">
+      <i class="fas fa-external-link-alt"></i>
+      <h3>Other Payment Options</h3>
+      <!-- <p>You are being redirected to our payment partner for additional payment methods.</p> -->
+      <!-- <a href="https://sbcollect.sbi.bank.in/sbicollect/" class="btn btn-primary" id="external-redirect-btn" target="_blank" rel="noopener">
+        <i class="fas fa-external-link-alt"></i> Proceed to Payment Gateway
+      </a> -->
+      <p>If you select other payment options like below screenshot enter <b>SAI VEERA BHADRA</b> on search box.</p>
+      <img src="../images/SaiVeerabhadra.png" />
+      <!-- <p class="redirect-note">If not redirected automatically, click the button above.</p> -->
+    </div>
+  </div>
+
+  <!-- Donate Tabs -->
+  <section class="section">
     <div class="container">
-      <div class="form-wrapper">
-        <h2>Donate Now</h2>
-        <p class="subtitle">Complete your UPI payment, then submit the transaction details for confirmation.</p>
-        <form id="donation-form" action="#" method="post">
-          <div class="form-group">
-            <label for="donatorName">Name</label>
-            <input type="text" id="donatorName" name="donatorName" placeholder="Enter your name" required>
-          </div>
-          <div class="form-group">
-            <label for="program">Program</label>
-            <select id="program" name="program" required>
-              <option value="" selected disabled>Select a program</option>
-              <option>Education Support</option>
-              <option>Medical Assistance</option>
-              <option>Food Distribution</option>
-              <option>Clothes and Groceries</option>
-              <option>Disability Support</option>
-              <option>Skill Development</option>
-              <option>General Donation</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="amount">Amount <span class="required-mark">*</span></label>
-            <input type="number" id="amount" name="amount" placeholder="Enter donation amount" min="1" step="1" required>
-          </div>
-          <div class="upi-payment-box">
-            <div class="upi-heading"><i class="fas fa-qrcode"></i><span>UPI QR Scanner</span></div>
-            <div class="upi-qr-placeholder">
-              <img class="upi-qr-image" src="../images/UPI QR Scanner.jpeg" alt="">
-            </div>
-            <p class="upi-note">Scan the official QR code with your UPI app and complete the donation.</p>
-          </div>
-          <div class="form-group transaction-group" id="transaction-group">
-            <label for="upiTransactionId">UPI Transaction ID</label>
-            <input type="text" id="upiTransactionId" name="upiTransactionId" placeholder="Enter the transaction ID from your UPI app" minlength="6" required>
-            <small>Enter the transaction ID shown after your successful payment.</small>
-          </div>
-          <button type="submit" class="btn btn-primary btn-block" id="donation-submit" disabled>Submit Donation</button>
-          <p class="donation-status" id="donation-status" role="status" aria-live="polite"></p>
-        </form>
+      <!-- <div class="donate-tabs" role="tablist">
+        <button class="donate-tab active" role="tab" data-tab="donate-form" aria-selected="true">
+          <i class="fas fa-hand-holding-heart"></i> UPI Payment
+        </button>
+        <button type="submit" 
+                class="donate-tab" 
+                role="tab" 
+                data-tab="external-redirect" 
+                data-url="https://sbcollect.sbi.bank.in/sbicollect/" 
+                aria-selected="false">
+          <i class="fas fa-external-link-alt" aria-hidden="true"></i> Other Payment Options
+        </button>
+        <button class="donate-tab" role="tab" data-tab="external-redirect" aria-selected="false">
+          <i class="fas fa-external-link-alt"></i> Other Payment Options
+        </button>
+      </div> -->
+      <div class="donate-tabs" role="tablist">
+        <button type="button" 
+                class="donate-tab" 
+                role="tab" 
+                data-tab="donate-form" 
+                aria-selected="false">
+          <i class="fas fa-hand-holding-heart"></i> UPI Payment
+        </button>
+        
+        <button type="button" 
+                class="donate-tab" 
+                role="tab" 
+                data-tab="external-redirect" 
+                data-url="https://sbcollect.sbi.bank.in/sbicollect/" 
+                aria-selected="true">
+          <i class="fas fa-external-link-alt" aria-hidden="true"></i> Other Payment Options
+        </button>
       </div>
+
+      <!-- Tab Panel 1: Donate Form -->
+      <div class="donate-tab-panel" id="donate-form" role="tabpanel" aria-labelledby="donate-form-tab" hidden>
+        <!-- Donate Form Section -->
+        <section class="form-section section" id="donateForm">
+          <div class="container">
+            <div class="form-wrapper">
+              <h2>Donate Now</h2>
+              <p class="subtitle">Complete your UPI payment, then submit the transaction details for confirmation.</p>
+              <form id="donation-form" action="#" method="post">
+                <div class="form-group">
+                  <label for="donatorName">Name</label>
+                  <input type="text" id="donatorName" name="donatorName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                  <label for="program">Program</label>
+                  <select id="program" name="program" required>
+                    <option value="" selected disabled>Select a program</option>
+                    <option>Education Support</option>
+                    <option>Medical Assistance</option>
+                    <option>Food Distribution</option>
+                    <option>Clothes and Groceries</option>
+                    <option>Disability Support</option>
+                    <option>Skill Development</option>
+                    <option>General Donation</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="amount">Amount <span class="required-mark">*</span></label>
+                  <input type="number" id="amount" name="amount" placeholder="Enter donation amount" min="1" step="1" required>
+                </div>
+                <div class="upi-payment-box">
+                  <div class="upi-heading"><i class="fas fa-qrcode"></i><span>UPI QR Scanner</span></div>
+                  <div class="upi-qr-placeholder">
+                    <img class="upi-qr-image" src="../images/UPI QR Scanner.jpeg" alt="">
+                  </div>
+                  <p class="upi-note">Scan the official QR code with your UPI app and complete the donation.</p>
+                </div>
+                <div class="form-group transaction-group" id="transaction-group">
+                  <label for="upiTransactionId">UPI Transaction ID</label>
+                  <input type="text" id="upiTransactionId" name="upiTransactionId" placeholder="Enter the transaction ID from your UPI app" minlength="6" required>
+                  <small>Enter the transaction ID shown after your successful payment.</small>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="donation-submit" disabled>Submit Donation</button>
+                <p class="donation-status" id="donation-status" role="status" aria-live="polite"></p>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Tab Panel 2: External Redirect -->
+      <!-- <div class="donate-tab-panel" id="external-redirect" role="tabpanel" aria-labelledby="external-redirect-tab" hidden>
+        <div class="container">
+          <div class="external-redirect-box">
+            <i class="fas fa-external-link-alt"></i>
+            <h3>Other Payment Options</h3>
+            <p>You are being redirected to our payment partner for additional payment methods.</p>
+            <a href="https://sbcollect.sbi.bank.in/sbicollect/" class="btn btn-primary" id="external-redirect-btn" target="_blank" rel="noopener">
+              <i class="fas fa-external-link-alt"></i> Proceed to Payment Gateway
+            </a>
+            <p>If you select other payment options like below screenshot enter <b>SAI VEERA BHADRA</b> on search box.</p>
+            <img src="../images/SaiVeerabhadra.png" />
+            <p class="redirect-note">If not redirected automatically, click the button above.</p>
+          </div>
+        </div>
+      </div> -->
     </div>
   </section>
 
