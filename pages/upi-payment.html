@@ -46,70 +46,10 @@
         <!-- ================= LEFT: PAYMENT FORM ================= -->
         <div class="pay-main">
 
-            <!-- STEP 1: Name -->
+            <!-- STEP 1: Method -->
             <div class="pay-card">
                 <div class="pay-card-head">
                     <span class="pay-step">1</span>
-                    <div>
-                        <h3>Name</h3>
-                    </div>
-                </div>
-
-                <input type="text" id="donorName" class="pay-name-input" placeholder="Enter your name" required autocomplete="off">
-            </div>
-
-            <!-- STEP 2: Amount -->
-            <div class="pay-card">
-                <div class="pay-card-head">
-                    <span class="pay-step">2</span>
-                    <div>
-                        <h3>Donation amount</h3>
-                        <p>How much would you like to give?</p>
-                    </div>
-                </div>
-                <div class="pay-amount-wrap">
-                    <span class="pay-rupee">₹</span>
-                    <input type="number" id="upiAmount" min="1" step="1" value="500" placeholder="0" autocomplete="off">
-                </div>
-            </div>
-
-            <!-- STEP 3: Purpose -->
-            <div class="pay-card">
-                <div class="pay-card-head">
-                    <span class="pay-step">3</span>
-                    <div>
-                        <h3>Purpose of donation</h3>
-                        <p>Where should your donation go?</p>
-                    </div>
-                </div>
-
-                <select id="payPurpose" class="pay-purpose-select">
-                    <option value="General Donation">General Donation</option>
-                    <option value="Education Support">Education Support</option>
-                    <option value="Medical Assistance">Medical Assistance</option>
-                    <option value="Food Distribution">Food Distribution</option>
-                    <option value="Clothes & Groceries">Clothes & Groceries</option>
-                    <option value="Disability Support">Disability Support</option>
-                    <option value="Skill Development">Skill Development</option>
-                    <option value="Other">Other (please specify)</option>
-                </select>
-
-                <!-- Custom purpose textarea — hidden until "Other" is selected -->
-                <div class="pay-custom-purpose" id="customPurposeWrap" hidden>
-                    <label for="customPurposeInput">Please specify your purpose *</label>
-                    <textarea id="customPurposeInput" class="pay-custom-input"
-                        placeholder="e.g., Flood relief, In memory of..., Gaushala, Temple support, Specific child education..."
-                        maxlength="150" rows="3"></textarea>
-                    <small class="pay-custom-hint">
-                        <span id="customPurposeCount">0</span>/150 characters
-                    </small>
-                </div>
-            </div>
-
-            <!-- STEP 4: Method -->
-            <div class="pay-card">
-                <div class="pay-card-head">
-                    <span class="pay-step">4</span>
                     <div>
                         <h3>Payment method</h3>
                         <p>Choose how you'd like to pay</p>
@@ -117,8 +57,8 @@
                 </div>
 
                 <!-- UPI Apps -->
-                <label class="pay-method selected" for="method-upi">
-                    <input type="radio" name="payMethod" id="method-upi" value="upi" checked>
+                <label class="pay-method" for="method-upi">
+                    <input type="radio" name="payMethod" id="method-upi" value="upi">
                     <span class="pay-radio"></span>
                     <div class="pay-method-info">
                         <span class="pay-method-name"><i class="fas fa-mobile-alt"></i> UPI Apps</span>
@@ -210,11 +150,84 @@
                 </div>
 
             </div><!-- /.pay-card -->
+
+            <!-- STEP 2: Name -->
+            <div class="pay-card">
+                <div class="pay-card-head">
+                    <span class="pay-step">2</span>
+                    <div>
+                        <h3>Name</h3>
+                    </div>
+                </div>
+
+                <input type="text" id="donorName" class="pay-name-input" placeholder="Enter your name" required autocomplete="off">
+            </div>
+
+            <!-- STEP 3: Phone -->
+            <!-- <div class="pay-card">
+                <div class="pay-card-head">
+                    <span class="pay-step">3</span>
+                    <div>
+                        <h3>Phone Number</h3>
+                    </div>
+                </div>
+
+                <input type="tel" id="donorPhone" class="pay-name-input" placeholder="Enter your phone number" required autocomplete="off">
+            </div> -->
+
+            <!-- STEP 4: Amount -->
+            <div class="pay-card">
+                <div class="pay-card-head">
+                    <span class="pay-step">4</span>
+                    <div>
+                        <h3>Donation amount</h3>
+                        <p>How much would you like to give?</p>
+                    </div>
+                </div>
+                <div class="pay-amount-wrap">
+                    <span class="pay-rupee">₹</span>
+                    <input type="number" id="upiAmount" min="1" step="1" placeholder="0" autocomplete="off">
+                </div>
+            </div>
+
+            <!-- STEP 5: Purpose -->
+            <div class="pay-card">
+                <div class="pay-card-head">
+                    <span class="pay-step">5</span>
+                    <div>
+                        <h3>Purpose of donation</h3>
+                        <p>Where should your donation go?</p>
+                    </div>
+                </div>
+
+                <select id="payPurpose" class="pay-purpose-select">
+                    <option value="General Donation">General Donation</option>
+                    <option value="Education Support">Education Support</option>
+                    <option value="Medical Assistance">Medical Assistance</option>
+                    <option value="Food Distribution">Food Distribution</option>
+                    <option value="Clothes & Groceries">Clothes & Groceries</option>
+                    <option value="Disability Support">Disability Support</option>
+                    <option value="Skill Development">Skill Development</option>
+                    <option value="Other">Other (please specify)</option>
+                </select>
+
+                <!-- Custom purpose textarea — hidden until "Other" is selected -->
+                <div class="pay-custom-purpose" id="customPurposeWrap" hidden>
+                    <label for="customPurposeInput">Please specify your purpose *</label>
+                    <textarea id="customPurposeInput" class="pay-custom-input"
+                        placeholder="e.g., Flood relief, In memory of..., Gaushala, Temple support, Specific child education..."
+                        maxlength="150" rows="3"></textarea>
+                    <small class="pay-custom-hint">
+                        <span id="customPurposeCount">0</span>/150 characters
+                    </small>
+                </div>
+            </div>
+            
         </div><!-- /.pay-main -->
 
         <!-- ================= RIGHT: ORDER SUMMARY ================= -->
         <aside class="pay-side">
-            <div class="summary-card" id="orderSummaryCardQrCode">
+            <!-- <div class="summary-card" id="orderSummaryCardQrCode">
                 <h3 class="summary-title">Order Summary</h3>
 
                 <div class="summary-row">
@@ -244,7 +257,7 @@
                 <button type="button" class="btn-pay-now" id="payNowBtn">
                     Pay <span id="payNowAmt">₹500.00</span> <i class="fas fa-arrow-right"></i>
                 </button>
-            </div>
+            </div> -->
 
             <!-- NEW: Sidebar QR Code Container (hidden by default) -->
             <div class="summary-card sidebar-qr-container" id="sidebarQrCard" hidden style="text-align: center;">
@@ -253,8 +266,8 @@
                     <img src="../images/saiveerabhadra-qr.jpeg" alt="Scan to pay" width="200" height="200">
                 </div>
                 <p style="font-weight: 600; color: #0F172A; margin-bottom: 5px;">Scan with any UPI app</p>
-                <p style="font-size: 0.85rem; color: #64748B; margin-bottom: 15px;">Amount: <strong
-                        id="sidebarQrAmount">₹0.00</strong></p>
+                <!-- <p style="font-size: 0.85rem; color: #64748B; margin-bottom: 15px;">Amount: <strong
+                        id="sidebarQrAmount">₹0.00</strong></p> -->
                 <p style="font-size: 0.85rem; color: #64748B;">UPI ID: <strong>saiveerabhadra24@sbi</strong></p>
             </div>
         </aside>

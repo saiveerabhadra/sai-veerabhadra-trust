@@ -542,7 +542,7 @@ document.querySelectorAll('.donate-tab').forEach(button => {
   if (!amountInput) return;
 
   // 1. Force reset values on initial load
-  amountInput.value = '500';
+  // amountInput.value = '500';
 
     // If not on a mobile device, disable UPI option and select QR option
     if (!isMobileDevice()) {
@@ -579,7 +579,7 @@ document.querySelectorAll('.donate-tab').forEach(button => {
     // Also clear it when the page is loaded from the browser's back/forward cache
     window.addEventListener('pageshow', function(event) {
     if (event.persisted) {
-      amountInput.value = '500';
+      amountInput.value = '';
       if (nameInput) nameInput.value = '';
       
       document.querySelectorAll('.quick-amt').forEach(chip => {
@@ -593,11 +593,24 @@ document.querySelectorAll('.donate-tab').forEach(button => {
         upiRadioBtn.closest('.pay-method').classList.remove('disabled-method');
       }
 
-      const upiRadio = document.getElementById('method-upi');
-      if (upiRadio) {
-        upiRadio.checked = true;
-        upiRadio.dispatchEvent(new Event('change')); 
-      }
+      // const upiRadio = document.getElementById('method-upi');
+      // if (upiRadio) {
+      //   upiRadio.checked = true;
+      //   upiRadio.dispatchEvent(new Event('change')); 
+      // }
+
+      // Reset to "no method selected"
+      document.querySelectorAll('input[name="payMethod"]').forEach(r => {
+        r.checked = false;
+      });
+      const upiLabelReset = document.querySelector('label[for="method-upi"]');
+      if (upiLabelReset) upiLabelReset.classList.remove('selected');
+      const qrLabelReset = document.querySelector('label[for="method-qr"]');
+      if (qrLabelReset) qrLabelReset.classList.remove('selected');
+
+      // Re-run showOnly with no method
+      const payInit = document.querySelector('input[name="payMethod"]');
+      if (payInit) payInit.dispatchEvent(new Event('change'));
     }
   });
   }
@@ -622,8 +635,8 @@ document.querySelectorAll('.donate-tab').forEach(button => {
   const confirmBox     = document.getElementById('paymentConfirmBox');
   const amtPaidInput   = document.getElementById('payAmount');
 
-  let selectedApp    = 'phonepe';
-  let selectedMethod = 'upi';
+  let selectedApp    = '';
+  let selectedMethod = '';
 
   /* ---- Helpers ---- */
   function fmt(n) {
@@ -657,7 +670,17 @@ document.querySelectorAll('.donate-tab').forEach(button => {
     if (summaryAmount) summaryAmount.textContent = disp;
     if (totalEl)       totalEl.textContent       = disp;
     if (ctaAmtEl)      ctaAmtEl.textContent      = amt > 0 ? fmt(amt) : '';
-    if (amtPaidInput)  amtPaidInput.value        = amt;
+    // if (amtPaidInput)  amtPaidInput.value        = amt;
+    if (amtPaidInput) {
+      /* When QR is selected, let user type amount in the confirmation form */
+      if (selectedMethod === 'qr') {
+        amtPaidInput.value = '';
+        amtPaidInput.removeAttribute('readonly');
+      } else {
+        amtPaidInput.value = amt;
+        amtPaidInput.setAttribute('readonly', 'readonly');
+      }
+    }
 
     // NEW: Update the sidebar QR amount
     const sidebarQrAmount = document.getElementById('sidebarQrAmount');
@@ -784,6 +807,25 @@ document.querySelectorAll('.donate-tab').forEach(button => {
       if (sidebarQrCard)    sidebarQrCard.hidden    = true;
     }
 
+    /* NEW: Hide Steps 2–5 when QR is selected */
+    // const hideInputsWhenQr = ['donorName', 'donorPhone', 'upiAmount', 'payPurpose'];
+    const hideInputsWhenQr = ['donorName', 'upiAmount', 'payPurpose'];
+    hideInputsWhenQr.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      /* Walk up to the card (parent .pay-card) and hide it */
+      const card = el.closest('.pay-card');
+      if (card) card.hidden = (selectedMethod === 'qr');
+    });
+
+    /* Optional: hide quick-amounts chips + custom purpose block if visible */
+    const quickAmountChips = document.querySelector('.quick-amounts');
+    if (quickAmountChips) quickAmountChips.hidden = (selectedMethod === 'qr');
+
+    const customWrap = document.getElementById('customPurposeWrap');
+    if (customWrap) customWrap.hidden = (selectedMethod === 'qr');
+
     methodRows.forEach(row => {
       const radio = row.querySelector('input[type="radio"]');
       row.classList.toggle('selected', !!radio && radio.checked);
@@ -827,11 +869,26 @@ document.querySelectorAll('.donate-tab').forEach(button => {
       e.preventDefault();
       const app = card.dataset.app;
       const amount = getAmount();
+      const name = document.getElementById('donorName');
+      // const phone = document.getElementById('donorPhone');
+
+      // Validate inputs before proceeding
+      if (!name || !name.value.trim()) {
+        alert('Please enter your name first.');
+        name && name.focus();
+        return;
+      }
+      // if (!phone || !phone.value.trim()) {
+      //   alert('Please enter your phone number first.');
+      //   phone && phone.focus();
+      //   return;
+      // }
       if (!amount || amount <= 0) {
         alert('Please enter a valid amount first.');
         amountInput.focus();
         return;
       }
+
       selectedApp = app;
       updateSummary();
       window.location.href = buildUpiUrl(app, amount);
@@ -1008,7 +1065,7 @@ document.querySelectorAll('.donate-tab').forEach(button => {
   }
 
   /* ---- Initial state ---- */
-  showOnly('upi');
+  showOnly('');
   updateSummary();
 
   /* Expose for custom purpose handler */
