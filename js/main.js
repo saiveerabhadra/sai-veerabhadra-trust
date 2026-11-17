@@ -1,6 +1,10 @@
 /* ===== Current Year in Footer ===== */
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
 /* ===== Mobile Navigation Toggle ===== */
 function initNav() {
   const hamburger = document.querySelector('.hamburger');
@@ -220,7 +224,7 @@ function closeVideoModal() {
   videoModal.hidden = true;
   videoModal.style.opacity = '0';
   videoModal.style.visibility = 'hidden';
-  
+
   if (videoPlayer) {
     videoPlayer.pause();
     videoPlayer.currentTime = 0;
@@ -230,7 +234,7 @@ function closeVideoModal() {
     videoPlayer.load();
     videoPlayer.style.display = 'none';
   }
-  
+
   document.body.style.overflow = '';
 }
 
@@ -250,7 +254,7 @@ const donatePanels = document.querySelectorAll('.donate-tab-panel');
 donateTabs.forEach(tab => {
   tab.addEventListener('click', () => {
     const target = tab.getAttribute('data-tab');
-    
+
     donateTabs.forEach(t => {
       t.classList.remove('active');
       t.setAttribute('aria-selected', 'false');
@@ -259,7 +263,7 @@ donateTabs.forEach(tab => {
       p.classList.remove('active');
       p.hidden = true;
     });
-    
+
     tab.classList.add('active');
     tab.setAttribute('aria-selected', 'true');
     const panel = document.getElementById(target);
@@ -362,7 +366,7 @@ if (donateForm) {
     const donatorName = document.getElementById('donatorName').value.trim();
     const status = document.getElementById('donation-status');
     const transactionId = upiTransactionId?.value?.trim();
-    
+
     if (!transactionId) {
       if (status) {
         status.className = 'donation-status error';
@@ -370,24 +374,24 @@ if (donateForm) {
       }
       return;
     }
-    
+
     if (status) {
       status.className = 'donation-status';
       status.textContent = 'Submitting...';
     }
-    
+
     const formData = new FormData(donateForm);
     const donation = Object.fromEntries(formData.entries());
-    
+
     try {
       const response = await fetch('https://formspree.io/f/mzezzybe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(donation)
       });
-      
+
       if (!response.ok) throw new Error('Email notification failed');
-      
+
       if (status) {
         status.className = 'donation-status success';
         status.textContent = 'Thank you, ' + donatorName + '! UTR ' + transactionId + ' submitted. We\'ll verify and confirm within 24 hours.';
@@ -398,7 +402,7 @@ if (donateForm) {
         status.textContent = 'Thank you, ' + donatorName + '! UTR ' + transactionId + ' submitted. We\'ll verify and confirm within 24 hours.';
       }
     }
-    
+
     donateForm.reset();
     if (donationSubmit) donationSubmit.disabled = true;
   });
@@ -515,10 +519,601 @@ document.querySelectorAll('.donate-tab').forEach(button => {
   button.addEventListener('click', function() {
     // Get the URL from the data-url attribute
     const url = this.getAttribute('data-url');
-    
+
     // If a URL exists, open it in a new tab
     if (url) {
       window.open(url, '_blank');
     }
   });
 });
+
+/* =========================================================
+   PROFESSIONAL UPI PAYMENT FLOW + ORDER SUMMARY
+   ========================================================= */
+(function initProfessionalPayment() {
+
+  /* ⚠️⚠️⚠️ CHANGE THIS TO YOUR REAL TRUST UPI ID ⚠️⚠️⚠️ */
+  const UPI_ID = 'saiveerabhadra24@sbi';
+
+  const PAYEE_NAME = 'SAI VEERA BHADRA TRUST';
+  const PAYEE_NAME_ENCODED = encodeURIComponent(PAYEE_NAME);
+
+  const amountInput = document.getElementById('upiAmount');
+  if (!amountInput) return;
+
+  // 1. Force reset values on initial load
+  amountInput.value = '500';
+
+    // If not on a mobile device, disable UPI option and select QR option
+    if (!isMobileDevice()) {
+      const upiRadioBtn = document.getElementById('method-upi');
+      const qrRadioBtn = document.getElementById('method-qr');
+      
+      // 1. Disable UPI option
+      if (upiRadioBtn) {
+        upiRadioBtn.checked = false;
+        upiRadioBtn.disabled = true;
+        const upiLabel = upiRadioBtn.closest('.pay-method');
+        if (upiLabel) upiLabel.classList.add('disabled-method');
+      } 
+      
+      // 2. Select QR option (Notice this is an 'if' now, not 'else if')
+      if (qrRadioBtn) {
+        qrRadioBtn.checked = true;
+      } 
+      
+      // 3. Force the UI to hide the apps and show the QR code/sidebar
+      // This uses your existing showOnly() function. 
+      // We wrap it in a setTimeout to ensure the function is fully defined before it runs.
+      setTimeout(() => {
+        const qrRadio = document.getElementById('method-qr');
+        if (qrRadio) qrRadio.dispatchEvent(new Event('change'));
+      }, 10);
+    }
+
+  // Clear the name input on page load (prevents browser refresh from keeping it)
+  const donorNameInput = document.getElementById('donorName');
+  if (donorNameInput) {
+    donorNameInput.value = '';
+
+    // Also clear it when the page is loaded from the browser's back/forward cache
+    window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+      amountInput.value = '500';
+      if (nameInput) nameInput.value = '';
+      
+      document.querySelectorAll('.quick-amt').forEach(chip => {
+        chip.classList.toggle('active', chip.dataset.amt === '500');
+      });
+
+      // RESET THE DISABLED STATE ON REFRESH
+      const upiRadioBtn = document.getElementById('method-upi');
+      if (upiRadioBtn) {
+        upiRadioBtn.disabled = false;
+        upiRadioBtn.closest('.pay-method').classList.remove('disabled-method');
+      }
+
+      const upiRadio = document.getElementById('method-upi');
+      if (upiRadio) {
+        upiRadio.checked = true;
+        upiRadio.dispatchEvent(new Event('change')); 
+      }
+    }
+  });
+  }
+
+  const purposeSelect  = document.getElementById('payPurpose');
+  const qrBlock        = document.getElementById('qrBlock');
+  const appsBlock      = document.getElementById('upiAppsBlock');
+  const otherBlock     = document.getElementById('otherBlock');
+  const methodRadios   = document.querySelectorAll('input[name="payMethod"]');
+  const methodRows     = document.querySelectorAll('.pay-method');
+  const appCards       = document.querySelectorAll('.upi-app-card');
+  const chips          = document.querySelectorAll('.quick-amt');
+
+  /* Order summary elements */
+  const summaryAmount  = document.getElementById('summaryAmount');
+  const summaryMethod  = document.getElementById('summaryMethod');
+  const summaryPurpose = document.getElementById('summaryPurpose');
+  const totalEl        = document.getElementById('payTotal');
+  const ctaAmtEl       = document.getElementById('payNowAmt');
+
+  const ctaBtn         = document.getElementById('payNowBtn');
+  const confirmBox     = document.getElementById('paymentConfirmBox');
+  const amtPaidInput   = document.getElementById('payAmount');
+
+  let selectedApp    = 'phonepe';
+  let selectedMethod = 'upi';
+
+  /* ---- Helpers ---- */
+  function fmt(n) {
+    return '₹' + Number(n || 0).toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+
+  function getAmount() {
+    const v = parseFloat(amountInput.value);
+    return (!v || v <= 0) ? 0 : v;
+  }
+
+  function appLabel(app) {
+    switch (app) {
+      case 'phonepe': return 'PhonePe';
+      case 'gpay':    return 'Google Pay';
+      case 'paytm':   return 'Paytm';
+      //case 'bhim':    return 'BHIM UPI';
+      //case 'any':     return 'Any UPI App';
+      default:        return 'UPI';
+    }
+  }
+
+  function updateSummary() {
+    const amt  = getAmount();
+    const disp = amt > 0 ? fmt(amt) : '—';
+
+    /* Amounts */
+    if (summaryAmount) summaryAmount.textContent = disp;
+    if (totalEl)       totalEl.textContent       = disp;
+    if (ctaAmtEl)      ctaAmtEl.textContent      = amt > 0 ? fmt(amt) : '';
+    if (amtPaidInput)  amtPaidInput.value        = amt;
+
+    // NEW: Update the sidebar QR amount
+    const sidebarQrAmount = document.getElementById('sidebarQrAmount');
+    if (sidebarQrAmount) sidebarQrAmount.textContent = disp;
+
+    /* Method */
+    if (summaryMethod) {
+      let label = '—';
+      if (selectedMethod === 'upi')   label = appLabel(selectedApp);
+      if (selectedMethod === 'qr')    label = 'QR Code';
+      if (selectedMethod === 'other') label = 'SBI Collect';
+      summaryMethod.textContent = label;
+    }
+
+    /* Purpose */
+    if (summaryPurpose && purposeSelect) {
+      let label = purposeSelect.value;
+      if (label === 'Other') {
+        const custom = document.getElementById('customPurposeInput');
+        const val = custom && custom.value.trim();
+        label = val ? 'Other: ' + val : 'Other (specify)';
+      }
+      summaryPurpose.textContent = label;
+    }
+  }
+
+  // /* ---- QR block ---- */
+  // function showQrBlock() {
+  //   const amt = getAmount();
+  //   if (!qrBlock || amt <= 0) {
+  //     if (qrBlock) { qrBlock.hidden = true; qrBlock.innerHTML = ''; }
+  //     return;
+  //   }
+  //   // const upiUrl =
+  //   //   'upi://pay?pa=' + encodeURIComponent(UPI_ID) +
+  //   //   '&pn='          + PAYEE_NAME_ENCODED +
+  //   //   '&am='          + amt.toFixed(2) +
+  //   //   '&cu=INR&tn='   + encodeURIComponent('Donation');
+
+  //   // const qrSrc =
+  //   //   'https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=' +
+  //   //   encodeURIComponent(upiUrl);
+  //   const qrSrc = '../images/saiveerabhadra-qr.jpeg';
+
+  //   qrBlock.innerHTML =
+  //     '<div class="upi-qr-box">' +
+  //       '<img src="' + qrSrc + '" alt="UPI QR Code" width="240" height="240">' +
+  //     '</div>' +
+  //     '<div class="upi-qr-meta">' +
+  //       '<p>Amount: <strong>' + fmt(amt) + '</strong></p>' +
+  //       '<p>UPI ID: <strong>' + UPI_ID + '</strong></p>' +
+  //       '<p class="upi-qr-hint">Scan with PhonePe, Google Pay, Paytm, BHIM or any UPI app</p>' +
+  //     '</div>';
+  //   qrBlock.hidden = false;
+  // }
+
+  // function hideQrBlock() {
+  //   if (!qrBlock) return;
+  //   qrBlock.hidden    = true;
+  //   qrBlock.innerHTML = '';
+  // }
+
+  /* ---- QR block — static image ---- */
+  function showQrBlock() {
+    if (!qrBlock) return;
+    qrBlock.hidden = false;
+  }
+
+  function hideQrBlock() {
+    if (!qrBlock) return;
+    qrBlock.hidden = true;
+  }
+
+  /* ---- UPI deep-links ---- */
+  function buildUpiUrl(app, amount) {
+    const note = encodeURIComponent('Donation to SAI VEERA BHADRA TRUST');
+    const am   = amount.toFixed(2);
+    const qs   = 'pa=' + UPI_ID +
+                 '&pn=' + PAYEE_NAME_ENCODED +
+                 '&am=' + am +
+                 '&cu=INR&tn=' + note;
+    switch (app) {
+      case 'phonepe': return 'phonepe://pay?' + qs;
+      case 'gpay':    return 'tez://upi/pay?' + qs;
+      case 'paytm':   return 'paytmmp://pay?' + qs;
+      default:        return 'upi://pay?' + qs;
+    }
+  }
+
+  function showConfirm(amount) {
+    if (!confirmBox) return;
+    confirmBox.hidden = false;
+    if (amtPaidInput) amtPaidInput.value = amount;
+    confirmBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* ---- Mutual exclusion ---- */
+  function showOnly(method) {
+    selectedMethod = method;
+
+    if (appsBlock)  appsBlock.hidden  = true;
+    if (otherBlock) otherBlock.hidden = true;
+    hideQrBlock();
+
+    if (selectedMethod === 'upi') {
+      if (appsBlock) appsBlock.hidden = false;
+    } else if (selectedMethod === 'qr') {
+      showQrBlock();
+    } else if (selectedMethod === 'other') {
+      if (otherBlock) otherBlock.hidden = false;
+    }
+
+    // NEW: Toggle Order Summary and Sidebar QR
+    const orderSummaryCardQrCode = document.getElementById('orderSummaryCardQrCode');
+    const sidebarQrCard    = document.getElementById('sidebarQrCard');
+
+    if (selectedMethod === 'qr') {
+      // Hide Order Summary, Show Sidebar QR
+      if (orderSummaryCardQrCode) orderSummaryCardQrCode.hidden = true;
+      if (sidebarQrCard)    sidebarQrCard.hidden    = false;
+    } else {
+      // Show Order Summary, Hide Sidebar QR
+      if (orderSummaryCardQrCode) orderSummaryCardQrCode.hidden = false;
+      if (sidebarQrCard)    sidebarQrCard.hidden    = true;
+    }
+
+    methodRows.forEach(row => {
+      const radio = row.querySelector('input[type="radio"]');
+      row.classList.toggle('selected', !!radio && radio.checked);
+    });
+
+    updateSummary();
+  }
+
+  /* ---- Bind radios ---- */
+  methodRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.checked) showOnly(radio.value);
+    });
+  });
+
+  /* ---- Amount input ---- */
+  amountInput.addEventListener('input', () => {
+    updateSummary();
+    if (selectedMethod === 'qr') showQrBlock();
+  });
+
+  /* ---- Quick amounts ---- */
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      amountInput.value = chip.dataset.amt;
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      updateSummary();
+      if (selectedMethod === 'qr') showQrBlock();
+    });
+  });
+
+  /* ---- Purpose change ---- */
+  if (purposeSelect) {
+    purposeSelect.addEventListener('change', updateSummary);
+  }
+
+  /* ---- UPI app click ---- */
+  appCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      const app = card.dataset.app;
+      const amount = getAmount();
+      if (!amount || amount <= 0) {
+        alert('Please enter a valid amount first.');
+        amountInput.focus();
+        return;
+      }
+      selectedApp = app;
+      updateSummary();
+      window.location.href = buildUpiUrl(app, amount);
+
+      const onVisible = () => {
+        if (!document.hidden) {
+          // showConfirm(amount);
+          document.removeEventListener('visibilitychange', onVisible);
+        }
+      };
+      document.addEventListener('visibilitychange', onVisible);
+      // setTimeout(() => { if (!document.hidden) showConfirm(amount); }, 2500);
+      setTimeout(2500);      
+    });
+  });
+
+  /* ---- Main CTA ---- */
+  if (ctaBtn) {
+    ctaBtn.addEventListener('click', () => {
+      // 1. Validate Name
+      const nameInput = document.getElementById('donorName');
+      if (!nameInput || !nameInput.value.trim()) {
+        alert('Please enter your name.');
+        nameInput && nameInput.focus();
+        return;
+      }
+
+      // 2. Validate Amount
+      const amt = getAmount();
+      if (amt <= 0) {
+        alert('Please enter a valid donation amount.');
+        amountInput.focus();
+        return;
+      }
+
+      if (selectedMethod === 'upi') {
+        // if (appsBlock) appsBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // DEFAULT TO PHONEPE if no app is explicitly selected yet
+        selectedApp = selectedApp || 'phonepe';
+        updateSummary();
+
+        // // Trigger the UPI redirect exactly like clicking the app card does
+        // const url = buildUpiUrl(selectedApp, amt);
+        // // window.location.href = url;
+        // console.log('Build UPI URL:', url);
+
+        // // Force the redirect
+        // window.location.replace(url);
+
+        // // Show confirmation form when they return
+        // const onVisible = () => {
+        //   if (!document.hidden) {
+        //     showConfirm(amt);
+        //     document.removeEventListener('visibilitychange', onVisible);
+        //   }
+        // };
+
+        // document.addEventListener('visibilitychange', onVisible);
+        // setTimeout(() => { if (!document.hidden) showConfirm(amt); }, 2500);
+
+        // --- NEW DESKTOP VS MOBILE LOGIC ---
+        if (isMobileDevice()) {
+          const url = buildUpiUrl(selectedApp, amt);
+          window.location.replace(url);
+          
+          const onVisible = () => {
+            if (!document.hidden) {
+              showConfirm(amt);
+              document.removeEventListener('visibilitychange', onVisible);
+            }
+          };
+          document.addEventListener('visibilitychange', onVisible);
+          setTimeout(() => { if (!document.hidden) showConfirm(amt); }, 2500);
+
+        } else {
+          // Desktop Flow: Force QR
+          console.log("Desktop payment detected. Please scan the QR code with your phone to complete the donation.");
+
+          const upiRadioBtn = document.getElementById('method-upi');
+          if (upiRadioBtn) {
+            upiRadioBtn.checked = false;
+            upiRadioBtn.disabled = true;
+            upiRadioBtn.closest('.pay-method').classList.add('disabled-method');
+          }
+
+          const qrRadioBtn = document.getElementById('method-qr');
+          if (qrRadioBtn) {
+            qrRadioBtn.checked = true;
+            qrRadioBtn.dispatchEvent(new Event('change'));
+          }
+
+          setTimeout(() => {
+            const qrBlock = document.getElementById('qrBlock');
+            if (qrBlock) qrBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 100);
+
+          showConfirm(amt);
+        }
+      } else if (selectedMethod === 'qr') {
+        if (qrBlock && !qrBlock.hidden) {
+          qrBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        showConfirm(amt);
+      } else if (selectedMethod === 'other') {
+        if (otherBlock) otherBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  }
+
+  /* ---- Confirmation form ---- */
+  const confirmForm = document.getElementById('paymentConfirmForm');
+  if (confirmForm) {
+    confirmForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (window.__validatePurpose && !window.__validatePurpose()) {
+        alert('Please specify your purpose since you selected "Other".');
+        return;
+      }
+
+      const status = document.getElementById('paymentConfirmStatus');
+      const submitBtn = confirmForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      if (status) {
+        status.className = 'donation-status';
+        status.textContent = 'Submitting...';
+      }
+
+      // Get the correct name from Step 1
+      const nameInput = document.getElementById('donorName');
+      const finalName = nameInput ? nameInput.value.trim() : 'Anonymous';
+
+      const payload = {
+        _subject: "New Donation Attempt - SAI VEERA BHADRA TRUST",
+        payment_status: "Payment Initiated (Pending Verification)",
+        name:      finalName,
+        mobile:    document.getElementById('payerMobile').value.trim(),
+        amount:    amtPaidInput.value,
+        utr:       document.getElementById('utrNumber').value.trim(),
+        purpose:   (window.__getEffectivePurpose && window.__getEffectivePurpose())
+                        || (purposeSelect ? purposeSelect.value : 'General Donation'),
+        upiId:     UPI_ID,
+        method:    selectedMethod,
+        app:       selectedApp,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        const res = await fetch('https://formspree.io/f/mzezzybe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Failed');
+        if (status) {
+          status.className = 'donation-status success';
+          status.textContent =
+            'Thank you, ' + payload.name + '! We received UTR ' + payload.utr +
+            '. Receipt will arrive within 24 hours.';
+        }
+        confirmForm.reset();
+        confirmBox.hidden = true;
+      } catch (err) {
+        if (status) {
+          status.className = 'donation-status error';
+          status.textContent =
+            'Could not submit. Please screenshot your payment and WhatsApp us at 7702550818.';
+        }
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  /* ---- Initial state ---- */
+  showOnly('upi');
+  updateSummary();
+
+  /* Expose for custom purpose handler */
+  window.__payUpdateSummary = updateSummary;
+
+})();
+
+/* =========================================================
+   CUSTOM PURPOSE TEXTAREA HANDLER
+   ========================================================= */
+(function initCustomPurposeHandler() {
+
+  const purposeSelect = document.getElementById('payPurpose');
+  if (!purposeSelect) return;
+
+  const customWrap   = document.getElementById('customPurposeWrap');
+  const customInput  = document.getElementById('customPurposeInput');
+  const customCount  = document.getElementById('customPurposeCount');
+  const messageBox   = document.getElementById('donorMessage');
+  const messageCount = document.getElementById('messageCount');
+
+  /* ---- Show/hide textarea based on dropdown ---- */
+  function toggleCustomPurpose() {
+    const isOther = purposeSelect.value === 'Other';
+
+    if (customWrap) {
+      customWrap.hidden = !isOther;
+    }
+
+    if (customInput) {
+      if (isOther) {
+        customInput.required = true;
+        /* focus after the slide-in animation */
+        setTimeout(() => customInput.focus(), 260);
+      } else {
+        customInput.required = false;
+        customInput.value = '';
+        if (customCount) customCount.textContent = '0';
+      }
+    }
+
+    /* Tell the order summary to refresh */
+    if (typeof window.__payUpdateSummary === 'function') {
+      window.__payUpdateSummary();
+    }
+  }
+
+  purposeSelect.addEventListener('change', toggleCustomPurpose);
+  toggleCustomPurpose();  /* run once on load */
+
+  /* ---- Character counter: custom purpose ---- */
+  if (customInput && customCount) {
+    const updateCustomCount = () => {
+      customCount.textContent = customInput.value.length;
+
+      /* Keep the order summary in sync as the donor types */
+      if (typeof window.__payUpdateSummary === 'function') {
+        window.__payUpdateSummary();
+      }
+    };
+    customInput.addEventListener('input', updateCustomCount);
+    updateCustomCount();
+  }
+
+  /* ---- Character counter: message ---- */
+  if (messageBox && messageCount) {
+    const updateMsgCount = () => {
+      messageCount.textContent = messageBox.value.length;
+    };
+    messageBox.addEventListener('input', updateMsgCount);
+    updateMsgCount();
+  }
+
+  /* ---- Exposed helpers for the confirmation form ---- */
+  window.__getEffectivePurpose = function () {
+    if (!purposeSelect) return 'General Donation';
+    if (purposeSelect.value === 'Other') {
+      const custom = (customInput && customInput.value.trim()) || '';
+      return custom ? 'Other: ' + custom : 'Other';
+    }
+    return purposeSelect.value;
+  };
+
+  window.__getDonorMessage = function () {
+    return messageBox ? messageBox.value.trim() : '';
+  };
+
+  /* ---- Validation before submit ---- */
+  window.__validatePurpose = function () {
+    if (purposeSelect.value === 'Other') {
+      const custom = (customInput && customInput.value.trim()) || '';
+      if (!custom) {
+        if (customInput) {
+          customInput.focus();
+          customInput.style.borderColor = '#B42318';
+          customInput.style.boxShadow = '0 0 0 3px rgba(180,35,24,.08)';
+          setTimeout(() => {
+            customInput.style.borderColor = '';
+            customInput.style.boxShadow = '';
+          }, 2000);
+        }
+        return false;
+      }
+    }
+    return true;
+  };
+
+})();

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Donate to SAI VEERA BHADRA TRUST - Support education, scholarships, medical assistance, food distribution and other humanitarian activities for people in need.">
+    <meta name="keywords"
+        content="SAI VEERA BHADRA TRUST, donate, charity, support, education, medical, food, skill development, humanitarian">
+    <title>UPI Payment - SAI VEERA BHADRA TRUST</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- @@HEADER_START@@ -->
+    <div data-include="header"></div>
+    <!-- @@HEADER_END@@ -->
+
+    <!-- <section class="section section-no-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Make a Difference</span>
+                <h2 class="section-title">Every Contribution Matters</h2>
+                <p class="section-description"><strong>Your support can become someone's education, someone's meal,
+                        someone's
+                        medicine, or someone's opportunity for a better future.</strong><br><br>Every act of kindness
+                    has the power
+                    to change a life.<br>This occasion, let us celebrate not only with joy, but also by sharing hope,
+                    dignity, and
+                    opportunity with those who need it most.<br><br><strong>Your contribution can make a difference.
+                        Together, we
+                        can turn kindness into meaningful change.</strong> ❤️</p>
+            </div>
+        </div>
+    </section> -->
+
+    <div class="pay-layout">
+
+        <!-- ================= LEFT: PAYMENT FORM ================= -->
+        <div class="pay-main">
+
+            <!-- STEP 1: Name -->
+            <div class="pay-card">
+                <div class="pay-card-head">
+                    <span class="pay-step">1</span>
+                    <div>
+                        <h3>Name</h3>
+                    </div>
+                </div>
+
+                <input type="text" id="donorName" class="pay-name-input" placeholder="Enter your name" required autocomplete="off">
+            </div>
+
+            <!-- STEP 2: Amount -->
+            <div class="pay-card">
+                <div class="pay-card-head">
+                    <span class="pay-step">2</span>
+                    <div>
+                        <h3>Donation amount</h3>
+                        <p>How much would you like to give?</p>
+                    </div>
+                </div>
+                <div class="pay-amount-wrap">
+                    <span class="pay-rupee">₹</span>
+                    <input type="number" id="upiAmount" min="1" step="1" value="500" placeholder="0" autocomplete="off">
+                </div>
+            </div>
+
+            <!-- STEP 3: Purpose -->
+            <div class="pay-card">
+                <div class="pay-card-head">
+                    <span class="pay-step">3</span>
+                    <div>
+                        <h3>Purpose of donation</h3>
+                        <p>Where should your donation go?</p>
+                    </div>
+                </div>
+
+                <select id="payPurpose" class="pay-purpose-select">
+                    <option value="General Donation">General Donation</option>
+                    <option value="Education Support">Education Support</option>
+                    <option value="Medical Assistance">Medical Assistance</option>
+                    <option value="Food Distribution">Food Distribution</option>
+                    <option value="Clothes & Groceries">Clothes & Groceries</option>
+                    <option value="Disability Support">Disability Support</option>
+                    <option value="Skill Development">Skill Development</option>
+                    <option value="Other">Other (please specify)</option>
+                </select>
+
+                <!-- Custom purpose textarea — hidden until "Other" is selected -->
+                <div class="pay-custom-purpose" id="customPurposeWrap" hidden>
+                    <label for="customPurposeInput">Please specify your purpose *</label>
+                    <textarea id="customPurposeInput" class="pay-custom-input"
+                        placeholder="e.g., Flood relief, In memory of..., Gaushala, Temple support, Specific child education..."
+                        maxlength="150" rows="3"></textarea>
+                    <small class="pay-custom-hint">
+                        <span id="customPurposeCount">0</span>/150 characters
+                    </small>
+                </div>
+            </div>
+
+            <!-- STEP 4: Method -->
+            <div class="pay-card">
+                <div class="pay-card-head">
+                    <span class="pay-step">4</span>
+                    <div>
+                        <h3>Payment method</h3>
+                        <p>Choose how you'd like to pay</p>
+                    </div>
+                </div>
+
+                <!-- UPI Apps -->
+                <label class="pay-method selected" for="method-upi">
+                    <input type="radio" name="payMethod" id="method-upi" value="upi" checked>
+                    <span class="pay-radio"></span>
+                    <div class="pay-method-info">
+                        <span class="pay-method-name"><i class="fas fa-mobile-alt"></i> UPI Apps</span>
+                        <!-- <span class="pay-method-desc">PhonePe, Google Pay, Paytm, BHIM</span> -->
+                        <span class="pay-method-desc">PhonePe, Google Pay, Paytm</span>
+                    </div>
+                </label>
+
+                <!-- QR Code -->
+                <label class="pay-method" for="method-qr">
+                    <input type="radio" name="payMethod" id="method-qr" value="qr">
+                    <span class="pay-radio"></span>
+                    <div class="pay-method-info">
+                        <span class="pay-method-name"><i class="fas fa-qrcode"></i> Scan QR code</span>
+                        <span class="pay-method-desc">Use any UPI app to scan</span>
+                    </div>
+                </label>
+
+                <!-- Net Banking / Card -->
+                <!-- <label class="pay-method" for="method-other">
+                    <input type="radio" name="payMethod" id="method-other" value="other">
+                    <span class="pay-radio"></span>
+                    <div class="pay-method-info">
+                    <span class="pay-method-name"><i class="fas fa-university"></i> Net Banking / Card</span>
+                    <span class="pay-method-desc">Via SBI Collect</span>
+                    </div>
+                </label> -->
+
+                <!-- UPI APPS block -->
+                <div class="upi-apps-grid" id="upiAppsBlock">
+                    <a class="upi-app-card" data-app="phonepe" href="#" aria-label="Pay with PhonePe">
+                        <div class="upi-app-logo"><img
+                                src="https://download.logo.wine/logo/PhonePe/PhonePe-Logo.wine.png" alt="PhonePe"></div>
+                        <div class="upi-app-info">
+                            <span class="upi-app-name">PhonePe</span>
+                            <span class="upi-app-sub">Tap to pay</span>
+                        </div>
+                        <i class="fas fa-arrow-right upi-app-arrow"></i>
+                    </a>
+                    <a class="upi-app-card" data-app="gpay" href="#" aria-label="Pay with Google Pay">
+                        <div class="upi-app-logo"><img
+                                src="https://download.logo.wine/logo/Google_Pay/Google_Pay-Logo.wine.png"
+                                alt="Google Pay">
+                        </div>
+                        <div class="upi-app-info">
+                            <span class="upi-app-name">Google Pay</span>
+                            <span class="upi-app-sub">Tap to pay</span>
+                        </div>
+                        <i class="fas fa-arrow-right upi-app-arrow"></i>
+                    </a>
+                    <a class="upi-app-card" data-app="paytm" href="#" aria-label="Pay with Paytm">
+                        <div class="upi-app-logo"><img src="https://download.logo.wine/logo/Paytm/Paytm-Logo.wine.png"
+                                alt="Paytm"></div>
+                        <div class="upi-app-info">
+                            <span class="upi-app-name">Paytm</span>
+                            <span class="upi-app-sub">Tap to pay</span>
+                        </div>
+                        <i class="fas fa-arrow-right upi-app-arrow"></i>
+                    </a>
+                    <!-- <a class="upi-app-card" data-app="bhim" href="#" aria-label="Pay with BHIM">
+                        <div class="upi-app-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/BHIM_logo.png/240px-BHIM_logo.png" alt="BHIM UPI"></div>
+                        <div class="upi-app-info">
+                            <span class="upi-app-name">BHIM UPI</span>
+                            <span class="upi-app-sub">Tap to pay</span>
+                        </div>
+                        <i class="fas fa-arrow-right upi-app-arrow"></i>
+                        </a>
+                        <a class="upi-app-card" data-app="any" href="#" aria-label="Pay with any UPI app">
+                        <div class="upi-app-logo any-logo"><i class="fas fa-university"></i></div>
+                        <div class="upi-app-info">
+                            <span class="upi-app-name">Any UPI App</span>
+                            <span class="upi-app-sub">Enter UPI ID</span>
+                        </div>
+                        <i class="fas fa-arrow-right upi-app-arrow"></i>
+                    </a> -->
+                </div>
+
+                <!-- Net Banking block -->
+                <div class="external-redirect-box" id="otherBlock" hidden>
+                    <i class="fas fa-external-link-alt"></i>
+                    <h3>Other Payment Options</h3>
+                    <p>If you prefer net banking, credit/debit card or other methods, use our SBI Collect.</p>
+                    <p>Search for <b>SAI VEERA BHADRA</b> on the SBI Collect page.</p>
+                    <a href="https://sbcollect.sbi.bank.in/sbicollect/" class="btn btn-primary" target="_blank"
+                        rel="noopener">
+                        <i class="fas fa-external-link-alt"></i> Proceed to SBI Collect
+                    </a>
+                    <img src="../images/SaiVeerabhadra.png" alt="SBI Collect Search" class="sbi-collect-img">
+                </div>
+
+            </div><!-- /.pay-card -->
+        </div><!-- /.pay-main -->
+
+        <!-- ================= RIGHT: ORDER SUMMARY ================= -->
+        <aside class="pay-side">
+            <div class="summary-card" id="orderSummaryCardQrCode">
+                <h3 class="summary-title">Order Summary</h3>
+
+                <div class="summary-row">
+                    <span>Donation amount</span>
+                    <strong id="summaryAmount">₹500.00</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Payment method</span>
+                    <strong id="summaryMethod">PhonePe</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Purpose</span>
+                    <strong id="summaryPurpose">General Donation</strong>
+                </div>
+                <div class="summary-row muted">
+                    <span>Processing fee</span>
+                    <strong>₹0.00</strong>
+                </div>
+
+                <div class="summary-divider"></div>
+
+                <div class="summary-total">
+                    <span>Total</span>
+                    <strong id="payTotal">₹500.00</strong>
+                </div>
+
+                <button type="button" class="btn-pay-now" id="payNowBtn">
+                    Pay <span id="payNowAmt">₹500.00</span> <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- NEW: Sidebar QR Code Container (hidden by default) -->
+            <div class="summary-card sidebar-qr-container" id="sidebarQrCard" hidden style="text-align: center;">
+                <h3 class="summary-title">Scan to Pay</h3>
+                <div class="upi-qr-box" style="margin: 0 auto 15px; display: inline-block;">
+                    <img src="../images/saiveerabhadra-qr.jpeg" alt="Scan to pay" width="200" height="200">
+                </div>
+                <p style="font-weight: 600; color: #0F172A; margin-bottom: 5px;">Scan with any UPI app</p>
+                <p style="font-size: 0.85rem; color: #64748B; margin-bottom: 15px;">Amount: <strong
+                        id="sidebarQrAmount">₹0.00</strong></p>
+                <p style="font-size: 0.85rem; color: #64748B;">UPI ID: <strong>saiveerabhadra24@sbi</strong></p>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- @@FOOTER_START@@ -->
+    <div data-include="footer"></div>
+    <!-- @@FOOTER_END@@ -->
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/917702550818" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <script src="../js/load-components.js"></script>
+</body>
+
+</html>

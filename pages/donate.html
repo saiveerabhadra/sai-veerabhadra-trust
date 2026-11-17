@@ -1,31 +1,40 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Donate to SAI VEERA BHADRA TRUST - Support education, scholarships, medical assistance, food distribution and other humanitarian activities for people in need.">
-  <meta name="keywords" content="SAI VEERA BHADRA TRUST, donate, charity, support, education, medical, food, skill development, humanitarian">
+  <meta name="description"
+    content="Donate to SAI VEERA BHADRA TRUST - Support education, scholarships, medical assistance, food distribution and other humanitarian activities for people in need.">
+  <meta name="keywords"
+    content="SAI VEERA BHADRA TRUST, donate, charity, support, education, medical, food, skill development, humanitarian">
   <title>Donate - SAI VEERA BHADRA TRUST</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
 
 
-<!-- @@HEADER_START@@ -->
-<div data-include="header"></div>
-<!-- @@HEADER_END@@ -->
+  <!-- @@HEADER_START@@ -->
+  <div data-include="header"></div>
+  <!-- @@HEADER_END@@ -->
 
-<!-- Every Contribution Matters Section -->
+  <!-- Every Contribution Matters Section -->
   <section class="section section-no-padding">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Make a Difference</span>
         <h2 class="section-title">Every Contribution Matters</h2>
-        <p class="section-description"><strong>Your support can become someone's education, someone's meal, someone's medicine, or someone's opportunity for a better future.</strong><br><br>Every act of kindness has the power to change a life.<br>This occasion, let us celebrate not only with joy, but also by sharing hope, dignity, and opportunity with those who need it most.<br><br><strong>Your contribution can make a difference. Together, we can turn kindness into meaningful change.</strong> ❤️</p>
+        <p class="section-description"><strong>Your support can become someone's education, someone's meal, someone's
+            medicine, or someone's opportunity for a better future.</strong><br><br>Every act of kindness has the power
+          to change a life.<br>This occasion, let us celebrate not only with joy, but also by sharing hope, dignity, and
+          opportunity with those who need it most.<br><br><strong>Your contribution can make a difference. Together, we
+            can turn kindness into meaningful change.</strong> ❤️</p>
       </div>
     </div>
   </section>
@@ -64,20 +73,12 @@
         </button>
       </div> -->
       <div class="donate-tabs" role="tablist">
-        <button type="button" 
-                class="donate-tab" 
-                role="tab" 
-                data-tab="donate-form" 
-                aria-selected="false">
+        <button type="button" class="donate-tab" role="tab" data-url="upi-payment.html" aria-selected="false">
           <i class="fas fa-hand-holding-heart"></i> UPI Payment
         </button>
-        
-        <button type="button" 
-                class="donate-tab" 
-                role="tab" 
-                data-tab="external-redirect" 
-                data-url="https://sbcollect.sbi.bank.in/sbicollect/" 
-                aria-selected="true">
+
+        <button type="button" class="donate-tab" role="tab" data-tab="external-redirect"
+          data-url="https://sbcollect.sbi.bank.in/sbicollect/" aria-selected="true">
           <i class="fas fa-external-link-alt" aria-hidden="true"></i> Other Payment Options
         </button>
       </div>
@@ -110,7 +111,8 @@
                 </div>
                 <div class="form-group">
                   <label for="amount">Amount <span class="required-mark">*</span></label>
-                  <input type="number" id="amount" name="amount" placeholder="Enter donation amount" min="1" step="1" required>
+                  <input type="number" id="amount" name="amount" placeholder="Enter donation amount" min="1" step="1"
+                    required>
                 </div>
                 <div class="upi-payment-box">
                   <div class="upi-heading"><i class="fas fa-qrcode"></i><span>UPI QR Scanner</span></div>
@@ -121,10 +123,12 @@
                 </div>
                 <div class="form-group transaction-group" id="transaction-group">
                   <label for="upiTransactionId">UPI Transaction ID</label>
-                  <input type="text" id="upiTransactionId" name="upiTransactionId" placeholder="Enter the transaction ID from your UPI app" minlength="6" required>
+                  <input type="text" id="upiTransactionId" name="upiTransactionId"
+                    placeholder="Enter the transaction ID from your UPI app" minlength="6" required>
                   <small>Enter the transaction ID shown after your successful payment.</small>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block" id="donation-submit" disabled>Submit Donation</button>
+                <button type="submit" class="btn btn-primary btn-block" id="donation-submit" disabled>Submit
+                  Donation</button>
                 <p class="donation-status" id="donation-status" role="status" aria-live="polite"></p>
               </form>
             </div>
@@ -152,8 +156,8 @@
   </section>
 
   <!-- @@FOOTER_START@@ -->
-<div data-include="footer"></div>
-<!-- @@FOOTER_END@@ -->
+  <div data-include="footer"></div>
+  <!-- @@FOOTER_END@@ -->
 
   <!-- Scroll to Top Button -->
   <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
@@ -166,4 +170,5 @@
   </a>
   <script src="../js/load-components.js"></script>
 </body>
+
 </html>
